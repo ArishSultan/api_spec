@@ -1,10 +1,9 @@
-import 'package:api_spec/src/types/info.dart';
-import 'package:api_spec/src/types/path.dart';
+import 'types.dart';
 
 class ApiSpecification {
   final Info info;
   final String spec;
-  final Set<Path>? paths;
+  final Set<Path> paths;
 
   /// TODO(arish): Add Remaining fields.
   /// ...
@@ -12,6 +11,6 @@ class ApiSpecification {
   const ApiSpecification({
     required this.info,
     required this.spec,
-    this.paths,
+    this.paths = const {},
   });
 }

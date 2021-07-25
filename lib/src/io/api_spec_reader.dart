@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_spec/api_spec.dart';
+import 'package:api_spec/src/parser.dart';
 import 'package:api_spec/src/utils/converters.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
@@ -10,7 +11,7 @@ enum ApiSpecificationInputType { json, yaml }
 
 class ApiSpecificationReader {
   static ApiSpecification readMap(Map<String, dynamic> rawData) {
-    return ApiSpecification('');
+    return ApiSpecificationParser.parse(rawData);
   }
 
   static ApiSpecification readString(
