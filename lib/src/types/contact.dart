@@ -1,3 +1,5 @@
+part of api_spec.types;
+
 class Contact {
   final String? name;
   final String? url;

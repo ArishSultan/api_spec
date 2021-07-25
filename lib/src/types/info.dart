@@ -1,5 +1,4 @@
-import 'package:api_spec/src/types/contact.dart';
-import 'package:api_spec/src/types/license.dart';
+part of api_spec.types;
 
 class Info {
   final String title;

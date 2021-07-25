@@ -1,3 +1,5 @@
+part of api_spec.types;
+
 enum ParameterStyle {
   matrix,
   label,

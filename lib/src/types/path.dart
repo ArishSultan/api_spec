@@ -1,4 +1,4 @@
-import 'package:api_spec/src/types/operation.dart';
+part of api_spec.types;
 
 class Path {
   final String path;
