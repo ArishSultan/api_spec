@@ -1,3 +1,3 @@
 library api_spec;
 
-export 'src/api_spec_base.dart';
+export 'src/api_spec.dart';
