@@ -1,6 +1,5 @@
 part of '../parser.dart';
 
-
 ApiSpecification _parseOpenapi(Map<String, dynamic> data) {
   return ApiSpecification(
     spec: 'openapi',
@@ -14,7 +13,72 @@ ApiSpecification _parseOpenapi(Map<String, dynamic> data) {
 }
 
 Path _parsePath(String path, Map<String, dynamic>? data) {
-  return Path(path: path);
+  return Path(
+    path: path,
+    summary: data?['summary'],
+    description: data?['description'],
+    get: _parseOperation(data?['get']),
+    put: _parseOperation(data?['put']),
+    post: _parseOperation(data?['post']),
+    delete: _parseOperation(data?['delete']),
+    options: _parseOperation(data?['options']),
+    head: _parseOperation(data?['head']),
+    patch: _parseOperation(data?['patch']),
+    trace: _parseOperation(data?['trace']),
+  );
+}
+
+Operation? _parseOperation(Map<String, dynamic>? data) {
+  if (data == null) return null;
+  return Operation(
+    tags: data['tags'],
+    summary: data['summary'],
+    operationId: data['operationId'],
+    description: data['description'],
+    // externalDocs: data?['externalDocs'],
+  );
+}
+
+Parameter _parseParameter(Map<String, dynamic> data) {
+  ParameterStyle? style;
+  switch(data['style']) {
+    case 'matrix':
+      style = ParameterStyle.matrix;
+      break;
+    case 'label':
+      style = ParameterStyle.label;
+      break;
+    case 'form':
+      style = ParameterStyle.form;
+      break;
+    case 'simple':
+      style = ParameterStyle.simple;
+      break;
+    case 'spaceDelimited':
+      style = ParameterStyle.spaceDelimited;
+      break;
+    case 'pipeDelimited':
+      style = ParameterStyle.pipeDelimited;
+      break;
+    case 'deepObject':
+      style = ParameterStyle.deepObject;
+      break;
+  }
+
+  return Parameter(
+    style: style,
+    $in: data['in'],
+    name: data['name'],
+    schema: data['schema'],
+    example: data['example'],
+    content: data['content'],
+    examples: data['examples'],
+    required: data['required'],
+    deprecated: data['deprecated'],
+    description: data['description'],
+    allowReserved: data['allowReserved'],
+    allowEmptyValue: data['allowEmptyValue'],
+  );
 }
 
 Info _parseInfo(Map<String, dynamic>? data) {
