@@ -29,18 +29,4 @@ class Path {
     this.patch,
     this.trace,
   });
-
-  static Map<String, int> extractParameter(String path) {
-    var paraIndex = <String, int>{};
-    var rawStrList = path.split('/').where((element) => element.isNotEmpty).toList();
-
-    var i = 0;
-    for(var str in rawStrList) {
-      if (str[0] == '{'){
-        paraIndex[str.substring(1, str.length)] = i;
-        ++i;
-      }
-    }
-    return paraIndex;
-  }
 }

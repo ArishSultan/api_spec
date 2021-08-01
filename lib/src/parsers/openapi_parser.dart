@@ -43,7 +43,6 @@ Operation? _parseOperation(Map<String, dynamic>? data) {
 
 Parameter _parseParameter(Map<String, dynamic> data) {
   ParameterStyle? style;
-
   switch (data['style']) {
     case 'matrix':
       style = ParameterStyle.matrix;
