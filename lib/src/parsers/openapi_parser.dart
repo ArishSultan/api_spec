@@ -43,7 +43,6 @@ Operation? _parseOperation(Map<String, dynamic>? data) {
 
 Parameter _parseParameter(Map<String, dynamic> data) {
   ParameterStyle? style;
-  var $in = ParameterIn.path;
 
   switch (data['style']) {
     case 'matrix':
@@ -69,24 +68,9 @@ Parameter _parseParameter(Map<String, dynamic> data) {
       break;
   }
 
-  switch (data['in']) {
-    case 'path':
-      $in = ParameterIn.path;
-      break;
-    case 'query':
-      $in = ParameterIn.query;
-      break;
-    case 'header':
-      $in = ParameterIn.header;
-      break;
-    case 'cookie':
-      $in = ParameterIn.cookie;
-      break;
-  }
-
   return Parameter(
     style: style,
-    $in: $in,
+    $in: data['in']!,
     name: data['name'],
     schema: data['schema'],
     example: data['example'],

@@ -1,12 +1,5 @@
 part of api_spec.types;
 
-enum ParameterIn {
-  query,
-  path,
-  header,
-  cookie
-}
-
 enum ParameterStyle {
   matrix,
   label,
@@ -19,7 +12,7 @@ enum ParameterStyle {
 
 class Parameter {
   final String name;
-  final ParameterIn $in;
+  final String $in;
   final String? description;
   final bool required;
   final bool? deprecated;
