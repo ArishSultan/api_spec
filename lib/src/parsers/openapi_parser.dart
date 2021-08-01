@@ -17,6 +17,7 @@ Path _parsePath(String path, Map<String, dynamic>? data) {
     path: path,
     summary: data?['summary'],
     description: data?['description'],
+    parameters: data?['parameters']?.map((e) => _parseParameter(e)).toList().cast<Parameter>(),
     get: _parseOperation(data?['get']),
     put: _parseOperation(data?['put']),
     post: _parseOperation(data?['post']),
@@ -35,13 +36,16 @@ Operation? _parseOperation(Map<String, dynamic>? data) {
     summary: data['summary'],
     operationId: data['operationId'],
     description: data['description'],
+    parameters: data['parameters']?.map((e) => _parseParameter(e)).toList().cast<Parameter>(),
     // externalDocs: data?['externalDocs'],
   );
 }
 
 Parameter _parseParameter(Map<String, dynamic> data) {
   ParameterStyle? style;
-  switch(data['style']) {
+  var $in = ParameterIn.path;
+
+  switch (data['style']) {
     case 'matrix':
       style = ParameterStyle.matrix;
       break;
@@ -65,9 +69,24 @@ Parameter _parseParameter(Map<String, dynamic> data) {
       break;
   }
 
+  switch (data['in']) {
+    case 'path':
+      $in = ParameterIn.path;
+      break;
+    case 'query':
+      $in = ParameterIn.query;
+      break;
+    case 'header':
+      $in = ParameterIn.header;
+      break;
+    case 'cookie':
+      $in = ParameterIn.cookie;
+      break;
+  }
+
   return Parameter(
     style: style,
-    $in: data['in'],
+    $in: $in,
     name: data['name'],
     schema: data['schema'],
     example: data['example'],

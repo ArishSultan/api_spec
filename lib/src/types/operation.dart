@@ -8,6 +8,7 @@ class Operation {
   /// TODO(arish): change type to ExternalDocs.
   final String? externalDocs;
   final String? operationId;
+  final List<Parameter>? parameters;
 
   const Operation({
     this.tags,
@@ -15,5 +16,6 @@ class Operation {
     this.description,
     this.externalDocs,
     this.operationId,
+    this.parameters
   });
 }

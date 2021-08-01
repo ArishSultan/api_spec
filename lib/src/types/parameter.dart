@@ -1,5 +1,12 @@
 part of api_spec.types;
 
+enum ParameterIn {
+  query,
+  path,
+  header,
+  cookie
+}
+
 enum ParameterStyle {
   matrix,
   label,
@@ -11,8 +18,8 @@ enum ParameterStyle {
 }
 
 class Parameter {
-  final String? name;
-  final String $in;
+  final String name;
+  final ParameterIn $in;
   final String? description;
   final bool required;
   final bool? deprecated;
@@ -30,7 +37,7 @@ class Parameter {
   const Parameter({
     required this.$in,
     required this.required,
-    this.name,
+    required this.name,
     this.description,
     this.deprecated,
     this.allowEmptyValue,
