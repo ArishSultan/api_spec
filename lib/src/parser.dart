@@ -1,3 +1,5 @@
+import 'package:api_spec/src/errors/invalid_input_file.dart';
+
 import 'api_spec.dart';
 import 'types.dart';
 import 'utils/parser.dart';
@@ -11,6 +13,6 @@ class ApiSpecificationParser {
       return _parseOpenapi(data);
     }
 
-    throw 'Unknown API-Specification was provided';
+    throw const InvalidInputFile(InvalidInputFileReason.unRecognized);
   }
 }

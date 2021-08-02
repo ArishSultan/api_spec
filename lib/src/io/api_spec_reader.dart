@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_spec/api_spec.dart';
+import 'package:api_spec/src/errors/invalid_input_file.dart';
 import 'package:api_spec/src/parser.dart';
 import 'package:api_spec/src/utils/converters.dart';
 import 'package:path/path.dart';
@@ -42,10 +43,14 @@ class ApiSpecificationReader {
     return readMap(data);
   }
 
-  static ApiSpecification readFile(
+  static Future<ApiSpecification> readFile(
     File file, [
     ApiSpecificationInputType? inputType,
-  ]) {
+  ]) async {
+    if (! (await file.exists())) {
+      throw const InvalidInputFile(InvalidInputFileReason.notFound);
+    }
+
     if (inputType == null) {
       switch (extension(file.path)) {
         case '.json':
