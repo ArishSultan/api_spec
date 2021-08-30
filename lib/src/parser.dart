@@ -1,4 +1,5 @@
 import 'package:api_spec/src/errors/invalid_input_file.dart';
+import 'package:path/path.dart';
 
 import 'api_spec.dart';
 import 'types.dart';

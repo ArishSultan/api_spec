@@ -13,11 +13,42 @@ ApiSpecification _parseOpenapi(Map<String, dynamic> data) {
 }
 
 Path _parsePath(String path, Map<String, dynamic>? data) {
+  final List<Parameter> parameters = data?['parameters']
+          ?.map((e) => _parseParameter(e))
+          ?.toList()
+          ?.cast<Parameter>() ??
+      [];
+
+  final parsedPath = Uri.parse(path);
+
+  final pathSegments = <PathSegment>[];
+  final pathParams = parameters
+      .where((element) => element.$in.toLowerCase() == 'path')
+      .toList();
+  for (var i = 0; i < parsedPath.pathSegments.length; ++i) {
+    var segment = parsedPath.pathSegments[i];
+
+    if (segment[0] != '{') {
+      pathSegments.add(PathSegment(isPlaceholder: false, value: segment));
+      continue;
+    }
+
+    segment = segment.substring(1, segment.length - 1);
+
+    if (segment.isEmpty) throw 'empty parameter name detected in $path: $data';
+    if (pathParams.where((element) => element.name == segment).isEmpty) {
+      throw 'No parameter satisfies this placeholder in path';
+    }
+
+    pathSegments.add(PathSegment(isPlaceholder: true, value: segment));
+  }
+
   return Path(
     path: path,
+    pathSegments: pathSegments,
+    parameters: parameters,
     summary: data?['summary'],
     description: data?['description'],
-    parameters: data?['parameters']?.map((e) => _parseParameter(e)).toList().cast<Parameter>(),
     get: _parseOperation(data?['get']),
     put: _parseOperation(data?['put']),
     post: _parseOperation(data?['post']),
@@ -36,7 +67,10 @@ Operation? _parseOperation(Map<String, dynamic>? data) {
     summary: data['summary'],
     operationId: data['operationId'],
     description: data['description'],
-    parameters: data['parameters']?.map((e) => _parseParameter(e)).toList().cast<Parameter>(),
+    parameters: data['parameters']
+        ?.map((e) => _parseParameter(e))
+        .toList()
+        .cast<Parameter>(),
     // externalDocs: data?['externalDocs'],
   );
 }

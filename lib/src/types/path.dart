@@ -2,6 +2,8 @@ part of api_spec.types;
 
 class Path {
   final String path;
+  final List<PathSegment> pathSegments;
+
   final String? summary;
   final String? description;
   final List<Parameter>? parameters;
@@ -17,6 +19,7 @@ class Path {
 
   const Path({
     required this.path,
+    required this.pathSegments,
     this.summary,
     this.description,
     this.parameters,
@@ -29,4 +32,11 @@ class Path {
     this.patch,
     this.trace,
   });
+}
+
+class PathSegment {
+  final String value;
+  final bool isPlaceholder;
+
+  const PathSegment({required this.isPlaceholder, required this.value});
 }
