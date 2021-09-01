@@ -11,6 +11,9 @@ dependencies:
   path: ^1.8.0
   yaml: ^3.1.0
 
+  schema:
+    path: ../../json_schema/schema
+
 dev_dependencies:
   pedantic: ^1.10.0
   test: ^1.16.0

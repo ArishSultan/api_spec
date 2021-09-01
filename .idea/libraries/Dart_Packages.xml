@@ -198,6 +198,13 @@
             </list>
           </value>
         </entry>
+        <entry key="schema">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../json_schema/schema/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="shelf">
           <value>
             <list>
@@ -389,6 +396,7 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/web_socket_channel-2.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/webkit_inspection_protocol-1.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/yaml-3.1.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../json_schema/schema/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

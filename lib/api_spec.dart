@@ -1,5 +1,7 @@
 library api_spec;
 
+export 'package:schema/schema.dart';
+
 export 'src/api_spec.dart';
 export 'src/types.dart';
 
