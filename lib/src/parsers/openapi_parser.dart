@@ -3,7 +3,7 @@ part of '../parser.dart';
 ApiSpecification _parseOpenapi(Map<String, dynamic> data) {
   return ApiSpecification(
     spec: 'openapi',
-    info: _parseInfo(data['info']),
+    info: _parseInfo((data['info'] as Map).cast<String, dynamic>()),
     paths: ((data['paths'] ?? {}) as Map<String, dynamic>)
         .entries
         .map((e) => _parsePath(e.key, e.value))
@@ -13,18 +13,9 @@ ApiSpecification _parseOpenapi(Map<String, dynamic> data) {
 }
 
 Path _parsePath(String path, Map<String, dynamic>? data) {
-  final List<Parameter> parameters = data?['parameters']
-          ?.map((e) => _parseParameter(e))
-          ?.toList()
-          ?.cast<Parameter>() ??
-      [];
-
   final parsedPath = Uri.parse(path);
 
   final pathSegments = <PathSegment>[];
-  final pathParams = parameters
-      .where((element) => element.$in.toLowerCase() == 'path')
-      .toList();
   for (var i = 0; i < parsedPath.pathSegments.length; ++i) {
     var segment = parsedPath.pathSegments[i];
 
@@ -36,17 +27,14 @@ Path _parsePath(String path, Map<String, dynamic>? data) {
     segment = segment.substring(1, segment.length - 1);
 
     if (segment.isEmpty) throw 'empty parameter name detected in $path: $data';
-    if (pathParams.where((element) => element.name == segment).isEmpty) {
-      throw 'No parameter satisfies this placeholder in path';
-    }
-
     pathSegments.add(PathSegment(isPlaceholder: true, value: segment));
   }
 
   return Path(
     path: path,
     pathSegments: pathSegments,
-    parameters: parameters,
+    parameters:
+        data?['parameters']?.map(_parseParameter)?.toList()?.cast<Parameter>(),
     summary: data?['summary'],
     description: data?['description'],
     get: _parseOperation(data?['get']),
@@ -109,7 +97,7 @@ Parameter _parseParameter(Map<String, dynamic> data) {
     example: data['example'],
     content: data['content'],
     examples: data['examples'],
-    required: data['required'],
+    required: data['required'] ?? false,
     deprecated: data['deprecated'],
     description: data['description'],
     allowReserved: data['allowReserved'],

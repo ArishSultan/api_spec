@@ -21,7 +21,7 @@ Map<String, dynamic> convertYamlMapToJsonMap(YamlMap map) {
     if (item.value is List) {
       for (final entry in item.value as List) {
         if (entry is YamlMap) {
-          final object = {};
+          final object = <String, dynamic>{};
           if (item.key is Map) {
             throw 'Not Possible';
             // item.key[entry.key] = object;
@@ -43,16 +43,16 @@ Map<String, dynamic> convertYamlMapToJsonMap(YamlMap map) {
             throw 'Not Possible';
             // item.key[entry.key] = entry.value;
           } else {
-            (item.key as List).add(entry.value);
+            (item.key as List).add(entry);
           }
         }
       }
     } else {
       for (final entry in item.value.entries) {
         if (entry.value is YamlMap) {
-          final object = {};
+          final object = <String, dynamic>{};
           if (item.key is Map) {
-            item.key[entry.key] = object;
+            item.key[entry.key.toString()] = object;
           } else {
             (item.key as List).add(object);
           }
@@ -60,14 +60,14 @@ Map<String, dynamic> convertYamlMapToJsonMap(YamlMap map) {
         } else if (entry.value is YamlList) {
           final list = [];
           if (item.key is Map) {
-            item.key[entry.key] = list;
+            item.key[entry.key.toString()] = list;
           } else {
             (item.key as List).add(list);
           }
           queue.add(MapEntry(list, entry.value));
         } else {
           if (item.key is Map) {
-            item.key[entry.key] = entry.value;
+            item.key[entry.key.toString()] = entry.value;
           } else {
             (item.key as List).add(entry.value);
           }
